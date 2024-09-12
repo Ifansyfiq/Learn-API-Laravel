@@ -14,7 +14,7 @@ class PostController extends Controller
     function index()
     {
         $posts = Post::all();
-        return PostResource::collection($posts);
+        return PostDetailResource::collection($posts->loadMissing('writer:id,username'));
     }
 
     function show($id)
@@ -33,5 +33,18 @@ class PostController extends Controller
         $validated['author'] = Auth::user()->id;
         $post = Post::create($validated);
         return new PostDetailResource($post->LoadMissing('writer:id,username'));
+    }
+
+    function update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'title' => 'required|max:255',
+            'news_content' => 'required',
+        ]);
+
+        $post = Post::findOrFail($id);
+        $post->update($request->all());
+
+        return new PostDetailResource($post->loadMissing('writer:id,username'));
     }
 }
