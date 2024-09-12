@@ -11,6 +11,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('me', [AuthenticationController::class, 'me']);
     Route::post('/posts', [PostController::class, 'store']);
     Route::patch('/posts/{id}', [PostController::class, 'update'])->middleware(EnsurePostIsAuthorized::class);
+    Route::delete('/posts/{id}', [PostController::class, 'destroy'])->middleware(EnsurePostIsAuthorized::class);
 });
 
 Route::get('/posts', [PostController::class, 'index']);
