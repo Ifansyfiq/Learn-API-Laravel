@@ -12,11 +12,18 @@ class Post extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'title', 'news_content', 'author'
+        'title',
+        'news_content',
+        'author'
     ];
 
     public function writer(): BelongsTo
     {
         return $this->belongsTo(User::class, 'author', 'id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'post_id', 'id');
     }
 }

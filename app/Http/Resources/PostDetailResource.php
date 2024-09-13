@@ -20,6 +20,15 @@ class PostDetailResource extends JsonResource
             'created_at' => $this->created_at->format('Y-m-d'),
             'author' => $this->author,
             'writer' => $this->whenLoaded('writer'),
+            'comments' => $this->whenLoaded('comments', function () {
+                return collect($this->comments)->each(function ($comment) {
+                    $comment->commentator;
+                    return $comment;
+                });
+            }),
+            'comment_total' => $this->whenLoaded('comments', function () {
+                return $this->comments->count();
+            })
         ];
     }
 }
