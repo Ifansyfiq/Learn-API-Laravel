@@ -14,7 +14,8 @@ class Post extends Model
     protected $fillable = [
         'title',
         'news_content',
-        'author'
+        'author',
+        'image',
     ];
 
     public function writer(): BelongsTo
